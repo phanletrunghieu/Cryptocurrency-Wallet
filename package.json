@@ -1,13 +1,17 @@
 {
-  "name": "btc-eth",
+  "name": "btc-eth-wallet",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Phan Hieu",
+  "author": "Phan Hieu (https://github.com/phanletrunghieu)",
+  "repository": "phanletrunghieu/Cryptocurrency-Wallet",
   "license": "ISC",
+  "engines": {
+    "node": ">= 8.9.3"
+  },
   "dependencies": {
     "bitcoin-address": "^0.3.0",
     "bitcoinjs-lib": "^3.3.1",
@@ -19,5 +23,13 @@
     "express": "^4.16.2",
     "request": "^2.83.0",
     "web3": "^0.20.0"
-  }
+  },
+  "keywords": [
+    "bitcoin",
+    "btc",
+    "ethereum",
+    "eth",
+    "cryptocurrency",
+    "wallet"
+  ],
 }
