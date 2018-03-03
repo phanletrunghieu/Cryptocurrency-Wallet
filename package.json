@@ -9,11 +9,15 @@
   "author": "Phan Hieu",
   "license": "ISC",
   "dependencies": {
+    "bitcoin-address": "^0.3.0",
     "bitcoinjs-lib": "^3.3.1",
+    "bitcore-explorers": "^1.0.1",
+    "bitcore-lib": "^0.13.18",
     "body-parser": "^1.18.2",
     "ethereumjs-tx": "^1.3.3",
     "ethereumjs-wallet": "^0.6.0",
     "express": "^4.16.2",
+    "request": "^2.83.0",
     "web3": "^0.20.0"
   }
 }

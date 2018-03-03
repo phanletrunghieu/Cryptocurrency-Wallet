@@ -1,7 +1,10 @@
 var config = require('../../../../config');
 var express = require('express');
 let bitcoin = require('bitcoinjs-lib');
+
 var lib_response = require(config.library_dir + '/response_express');
+var lib_common = require(config.library_dir + '/common');
+var lib_btc = require(config.library_dir + '/BTCService');
 
 var btcTestNetRouter = express.Router();
 
@@ -17,20 +20,13 @@ btcTestNetRouter.post("/generateBTCAddress", (req, res)=>{
 });
 
 btcTestNetRouter.post("/transfer", (req, res)=>{
-  var isMissProp=lib_common.checkMissParams(res, req.body, ['privateKey', 'to', 'value']);
+  var isMissProp=lib_common.checkMissParams(res, req.body, ['privateKey', 'from', 'to', 'value']);
   if(isMissProp)
     return;
 
-  try{
-    var key = bitcoin.ECKey.fromWIF(req.body.privateKey);
-    var tx = new bitcoin.TransactionBuilder();
-    tx.addInput("d18e7106e5492baf8f3929d2d573d27d89277f3825d3836aa86ea1d843b5158b", 1);
-    tx.addOutput("12idKQBikRgRuZEbtxXQ4WFYB7Wa3hZzhT", 149000);
-    var transaction = lib_common.sendRawTransactionMainnet(req.body.from, req.body.to, req.body.privateKey, null, web3.toWei(req.body.value, "ether"), req.body.gasPrice, req.body.gasLimit);
-    response.success(res, transaction);
-	}catch(err){
-		response.exception(res, err.message);
-	}
+  lib_btc.createTransaction(req.body.from, req.body.to, req.body.value, req.body.privateKey, req.body.fee, true)
+  .then(result=>lib_response.success(res, result))
+  .catch(err=>lib_response.exception(res, err.message || err));
 });
 
 module.exports = btcTestNetRouter;
