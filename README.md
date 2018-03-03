@@ -6,10 +6,10 @@ Support Bitcoin and Ethereum.
 You need to install NodeJS 8+ & npm
 
 ## Installation
-`git pull https://github.com/phanletrunghieu/Cryptocurrency-Wallet.git`
-`cd Cryptocurrency-Wallet`
-`npm i`
-`node index.js`
+ - `git pull https://github.com/phanletrunghieu/Cryptocurrency-Wallet.git`
+ - `cd Cryptocurrency-Wallet`
+ - `npm i`
+ - `node index.js`
 
 ## Bug
 If it appears "Error: More than one instance of bitcore-lib found" then:
