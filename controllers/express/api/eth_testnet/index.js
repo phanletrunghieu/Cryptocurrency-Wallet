@@ -1,9 +1,11 @@
 var config = require('../../../../config');
 var express = require('express');
 var Wallet=require('ethereumjs-wallet');
+var randomize = require('randomatic');
 
 var lib_response = require(config.library_dir + '/response_express');
 var lib_common = require(config.library_dir + '/common');
+var lib_mycrypto = require(config.library_dir + '/mycrypto');
 
 var web3 = lib_common.getWeb3Instance(true);
 
@@ -15,15 +17,18 @@ ethTestNetRouter.post("/generateETHAddress", (req, res)=>{
 	var publicKey=wallet.getPublicKeyString().slice(2);
 	var address=wallet.getAddressString();
 
+  var encryptionKey=randomize("*", 32);
+
 	lib_response.success(res, {
-		privateKey: privateKey,
+		privateKey: lib_mycrypto.encrypt(privateKey, encryptionKey),
 		publicKey: publicKey,
 		address: address,
+    encryptionKey: encryptionKey,
 	});
 });
 
 ethTestNetRouter.post("/transfer", (req, res)=>{
-  var isMissProp=lib_common.checkMissParams(res, req.body, ['privateKey', 'from', 'to', 'value']);
+  var isMissProp=lib_common.checkMissParams(res, req.body, ['privateKey', 'encryptionKey', 'from', 'to', 'value']);
   if(isMissProp)
     return;
 
