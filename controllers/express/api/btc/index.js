@@ -34,4 +34,16 @@ btcRouter.post("/transfer", (req, res)=>{
   .catch(err=>lib_response.exception(res, err.message || err));
 });
 
+btcRouter.get("/getBalance", (req, res)=>{
+  var isMissProp=lib_common.checkMissParams(res, req.query, ['address']);
+  if(isMissProp)
+    return;
+
+  lib_btc.getBalance(req.query.address)
+  .then(balance=>{
+    lib_response.success(res, balance);
+  })
+  .catch(err=>lib_response.exception(res, err.message || err));
+});
+
 module.exports = btcRouter;

@@ -4,14 +4,14 @@ const explorers = require('bitcore-explorers');
 const bitcoinaddress = require('bitcoin-address');
 
 function BTCService() {
-  this.getBalance = (address) => {
+  this.getBalance = (address, isTestnet=false) => {
     return new Promise((resolve, reject) => {
 
-      if (!bitcoinaddress.validate(address)) {
+      if (!bitcoinaddress.validate(address, isTestnet ? "testnet" : "prod")) {
         return reject('Address checksum failed');
       }
       //get balance using the blockchain api
-      const url = 'https://blockchain.info/address/' + address + '?format=json';
+      const url = (isTestnet ? 'https://testnet.blockchain.info/address/' : 'https://blockchain.info/address/') + address + '?format=json';
 
       request(url, function(error, response, body) {
 

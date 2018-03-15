@@ -40,4 +40,17 @@ ethRouter.post("/transfer", (req, res)=>{
 	}
 });
 
+ethRouter.get("/getBalance", (req, res)=>{
+  var isMissProp=lib_common.checkMissParams(res, req.query, ['address']);
+  if(isMissProp)
+    return;
+
+  try{
+    var balance = lib_common.getBalance(req.query.address);
+    lib_response.success(res, balance);
+	}catch(err){
+		lib_response.exception(res, err.message || err);
+	}
+});
+
 module.exports = ethRouter;

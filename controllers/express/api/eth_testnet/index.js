@@ -36,7 +36,20 @@ ethTestNetRouter.post("/transfer", (req, res)=>{
     var transaction = lib_common.sendRawTransactionTestnet(req.body.from, req.body.to, req.body.privateKey, null, web3.toWei(req.body.value, "ether"), req.body.gasPrice, req.body.gasLimit);
     lib_response.success(res, transaction);
 	}catch(err){
-		lib_response.exception(res, err.message);
+		lib_response.exception(res, err.message || err);
+	}
+});
+
+ethTestNetRouter.get("/getBalance", (req, res)=>{
+  var isMissProp=lib_common.checkMissParams(res, req.query, ['address']);
+  if(isMissProp)
+    return;
+
+  try{
+    var balance = lib_common.getBalance(req.query.address, true);
+    lib_response.success(res, balance);
+	}catch(err){
+		lib_response.exception(res, err.message || err);
 	}
 });
 

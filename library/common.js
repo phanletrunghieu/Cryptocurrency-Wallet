@@ -35,13 +35,15 @@ exports.converterToPlainObject = function(obj){
 	return JSON.parse(JSON.stringify(obj));
 };
 
-exports.getWeb3Instance = function(isTestnet=false) {
+function getWeb3Instance(isTestnet=false) {
 	if (isTestnet) {
 		return new Web3(new Web3.providers.HttpProvider(config.web3Provider.testnet));
 	} else {
 		return new Web3(new Web3.providers.HttpProvider(config.web3Provider.mainnet));
 	}
-};
+}
+
+exports.getWeb3Instance = getWeb3Instance;
 
 exports.sendRawTransactionMainnet = function(from, to, privateKey, data=null, value=null, gasPrice=null, gasLimit=null){
   var rawTx = {
@@ -105,4 +107,11 @@ exports.sendRawTransactionTestnet = function(from, to, privateKey, data=null, va
   var serializedTx = tx.serialize();
   var transactionHash=web3Testnet.eth.sendRawTransaction('0x' + serializedTx.toString('hex'));
   return web3Testnet.eth.getTransaction(transactionHash);
+};
+
+exports.getBalance = function (address, isTestnet=false) {
+	var web3 = getWeb3Instance(isTestnet);
+	var balance=web3.eth.getBalance(address);
+	balance=web3.fromWei(balance, 'ether');
+	return balance=balance.toFixed(18);
 };
